@@ -19,7 +19,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/Aexaryan/modern-banking-system.git
+git clone [https://github.com/Aexaryan/BankOfArya]
 cd modern-banking-system
 Install dependencies:
 
