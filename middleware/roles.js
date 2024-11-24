@@ -1,3 +1,4 @@
+// Middleware to ensure user is admin
 const ensureAdmin = (req, res, next) => {
   if (req.isAuthenticated() && req.user.isAdmin) {
     return next();
