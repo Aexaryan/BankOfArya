@@ -1,0 +1,233 @@
+/* General Styles */
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8fafc;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header and Navigation */
+header nav {
+  background-color: #003087;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header nav .btn {
+  color: #fff;
+  background: #0066cc;
+  padding: 10px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+header nav .btn:hover {
+  background: #004a99;
+}
+
+/* Titles */
+h1, h2 {
+  text-align: left;
+  color: #003087;
+  margin: 20px 20px 10px;
+}
+
+/* Forms */
+form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 40px);
+  max-width: 600px;
+  margin: 20px;
+}
+
+form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+form input[type="text"], 
+form input[type="email"], 
+form input[type="number"] {
+  width: calc(100% - 20px);
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+form button[type="submit"], 
+form .btn {
+  background-color: #2b6cb0;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background-color: #2c5282;
+}
+
+/* Tables (Excludes User and Transaction History Tables) */
+table {
+  width: calc(100% - 40px);
+  margin: 20px;
+  border-collapse: collapse;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+table th {
+  background: #0066cc;
+  color: #fff;
+  font-weight: bold;
+}
+
+table tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.actions .btn {
+  margin-right: 5px;
+}
+
+.delete-btn {
+  background-color: red;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
+}
+
+/* Search Wrapper */
+.search-wrapper {
+  width: calc(100% - 40px);
+  max-width: 600px;
+  margin: 20px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.search-wrapper label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.search-wrapper input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-wrapper input:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 5px rgba(0, 102, 204, 0.5);
+}
+
+/* Cards */
+.bank-card {
+  background: linear-gradient(to bottom right, #afc0db, #1e3c72);
+  border-radius: 15px;
+  color: #ffffff;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  font-family: 'Arial', sans-serif;
+  transition: transform 0.3s ease;
+  margin-left: 20px;
+}
+
+
+.bank-card:hover {
+  transform: scale(1.05);
+}
+
+.bank-card h4 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.bank-card p {
+  margin: 5px 0;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+
+/* Optional: Customize card number appearance */
+.bank-card .card-number {
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/* Footer */
+footer {
+  background-color: #003087;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: auto;
+  font-size: 0.9rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 15px;
+  background: #0066cc;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #004a99;
+}
+
+.edit-mode input {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+}

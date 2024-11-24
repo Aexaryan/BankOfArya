@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+  <header>
+  <nav>
+    <% if (user && user.isAdmin) { %>
+      <a href="/admin/Dashboard" class="btn">📁 Admin Dashboard</a>
+    <% } %>
+    <a href="/logout" class="btn">Logout ⎋ </a>
+  </nav>
+  </header>
+  <h1>👤 <%= title %></h1>
+  <div class="bank-card">
+    <h4><%= user.name %></h4>
+    <p>Card Number: <%= cardNumber %></p>
+    <p>Balance: $<%= balance %></p>
+  </div>
+  
+  <!-- Search Input -->
+  <div class="search-wrapper">
+    <label for="transactionSearch">Search Transactions:</label>
+    <input type="text" id="transactionSearch" placeholder="Enter Transaction ID, Sender, or Recipient">
+  </div>
+
+  <!-- Transaction History -->
+  <h2>🕓 Transaction History</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Transaction ID</th>
+        <th>Sender</th>
+        <th>Recipient</th>
+        <th>Amount</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody id="transactionTableBody">
+      <% transactions.forEach(transaction => { %>
+      <tr>
+        <td><%= transaction.transactionId %></td>
+        <td><%= transaction.sender %></td>
+        <td><%= transaction.recipient %></td>
+        <td>$<%= transaction.amount %></td>
+        <td><%= new Date(transaction.date).toLocaleDateString() %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <h2>➤ Send Transaction</h2>
+  <form action="/transaction" method="POST" class="send-transaction-form">
+    <label for="recipient">Recipient card Number:</label>
+    <input type="number" id="cardNumber" name="cardNumber" required>
+    
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" step="0.01" min="0.01" required>
+    
+    <button type="submit" class="btn">Send Transaction</button>
+  </form>
+
+  <footer>
+    <p>&copy; 2024 My Application. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Search Logic -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const searchInput = document.getElementById("transactionSearch");
+      const tableBody = document.getElementById("transactionTableBody");
+      const rows = tableBody.getElementsByTagName("tr");
+
+      searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        
+        Array.from(rows).forEach(row => {
+          const transactionId = row.cells[0].textContent.toLowerCase();
+          const sender = row.cells[1].textContent.toLowerCase();
+          const recipient = row.cells[2].textContent.toLowerCase();
+
+          if (
+            transactionId.includes(query) ||
+            sender.includes(query) ||
+            recipient.includes(query)
+          ) {
+            row.style.display = ""; // Show matching row
+          } else {
+            row.style.display = "none"; // Hide non-matching row
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

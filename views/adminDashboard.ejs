@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/styles/styles.css">
+  
+</head>
+<body>
+  <header>
+    <nav>
+      
+      <a href="/user/Dashboard" class="btn">📄 User Dashboard</a>
+      <a href="/logout" class="btn">Logout ⎋ </a>
+    </nav>
+  </header>
+  <h1>📁 Admin Dashboard</h1>
+   <!-- Search Input -->
+<div class="search-wrapper">
+  <label for="userSearch">Search Users:</label>
+  <input type="text" id="userSearch" placeholder="Enter User Name or Card Number">
+</div>
+
+  <!-- Users Table -->
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Card Number</th>
+      <th>Balance</th>
+      <th>Admin</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="userTableBody">
+    <% users.forEach(user => { %>
+    <tr id="user-row-<%= user._id %>">
+      <!-- Name -->
+      <td>
+        <span class="view-mode"><%= user.name %></span>
+        <input type="text" class="edit-mode" name="name" value="<%= user.name %>" style="display: none;">
+      </td>
+
+      <!-- Email -->
+      <td>
+        <span class="view-mode"><%= user.email %></span>
+        <input type="email" class="edit-mode" name="email" value="<%= user.email %>" style="display: none;">
+      </td>
+
+      <!-- Card Number -->
+      <td><%= user.cardNumber %></td>
+
+      <!-- Balance -->
+      <td>
+        <span class="view-mode">$<%= user.balance %></span>
+        <input type="number" class="edit-mode" name="balance" value="<%= user.balance %>" style="display: none;">
+      </td>
+
+      <!-- Admin -->
+      <td>
+        <span class="view-mode"><%= user.isAdmin ? 'Yes' : 'No' %></span>
+        <input type="checkbox" class="edit-mode" name="isAdmin" <%= user.isAdmin ? 'checked' : '' %> style="display: none;">
+      </td>
+
+      <!-- Actions -->
+      <td class="actions">
+        <!-- View Mode -->
+        <button class="btn view-mode" type="button" onclick="enableEdit('<%= user._id %>')">Edit</button>
+        <a href="/admin/delete-user/<%= user._id %>?_method=DELETE" class="delete-btn">Delete</a>
+
+        <!-- Edit Mode -->
+        <form action="/admin/update-user/<%= user._id %>?_method=PUT" method="POST" class="edit-mode" style="display: none;">
+          <label for="name-<%= user._id %>">Name:</label>
+          <input type="text" id="name-<%= user._id %>" name="name" value="<%= user.name %>" required>
+        
+          <label for="email-<%= user._id %>">Email:</label>
+          <input type="email" id="email-<%= user._id %>" name="email" value="<%= user.email %>" required>
+        
+          <label for="balance-<%= user._id %>">Balance:</label>
+          <input type="number" id="balance-<%= user._id %>" name="balance" value="<%= user.balance %>" required>
+        
+          <label for="isAdmin-<%= user._id %>">Admin:</label>
+          <input type="hidden" name="isAdmin" value="off"> <!-- Ensure "off" is sent when unchecked -->
+          <input type="checkbox" id="isAdmin-<%= user._id %>" name="isAdmin" <%= user.isAdmin ? 'checked' : '' %>>
+        
+          <button type="submit" class="btn">Save</button>
+        </form>
+        <button class="btn edit-mode" type="button" style="display: none;" onclick="cancelEdit('<%= user._id %>')">Cancel</button>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+  <!-- <form action="/admin/add-user" method="POST" class="add-user-form">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="number" name="balance" placeholder="Balance" required>
+    <label for="isAdmin" style="display: inline-flex; align-items: center;">
+      Admin:
+      <input type="checkbox" name="isAdmin" style="margin-left: 8px;">
+    </label> <br>
+    <button type="submit" class="btn">Add User</button>
+  </form> -->
+  <h2>💳 All Transactions</h2>
+
+  <!-- Search Input -->
+<!-- Search Input -->
+<div class="search-wrapper">
+  <label for="transactionSearch">Search Transactions:</label>
+  <input type="text" id="transactionSearch" placeholder="Enter Transaction ID, Sender, or Recipient">
+</div>
+
+<!-- Transactions Table -->
+<table>
+  <thead>
+    <tr>
+      <th>Transaction ID</th>
+      <th>Sender</th>
+      <th>Recipient</th>
+      <th>Amount</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody id="transactionTableBody"> <!-- Added id here -->
+    <% transactions.forEach(transaction => { %>
+    <tr>
+      <td><%= transaction.transactionId %></td>
+      <td><%= transaction.sender %></td>
+      <td><%= transaction.recipient %></td>
+      <td>$<%= transaction.amount.toFixed(2) %></td>
+      <td><%= new Date(transaction.date).toLocaleString() %></td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<footer>
+  <p>&copy; 2024 My Application. All Rights Reserved.</p>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("transactionSearch");
+    const tableBody = document.getElementById("transactionTableBody"); // Correct id here
+    const rows = tableBody.getElementsByTagName("tr");
+
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase();
+
+      Array.from(rows).forEach(row => {
+        const transactionId = row.cells[0].textContent.toLowerCase();
+        const sender = row.cells[1].textContent.toLowerCase();
+        const recipient = row.cells[2].textContent.toLowerCase();
+
+        if (
+          transactionId.includes(query) ||
+          sender.includes(query) ||
+          recipient.includes(query)
+        ) {
+          row.style.display = ""; // Show matching row
+        } else {
+          row.style.display = "none"; // Hide non-matching row
+        }
+      });
+    });
+  });
+</script>
+
+  <script>
+    function enableEdit(userId) {
+      const row = document.getElementById(`user-row-${userId}`);
+      const viewModeElements = row.querySelectorAll('.view-mode');
+      const editModeElements = row.querySelectorAll('.edit-mode');
+
+      // Hide view mode elements
+      viewModeElements.forEach(el => el.style.display = 'none');
+
+      // Show edit mode elements
+      editModeElements.forEach(el => el.style.display = 'inline-block');
+      
+      // Highlight row being edited
+      row.classList.add('edit-row');
+    }
+
+    function cancelEdit(userId) {
+      const row = document.getElementById(`user-row-${userId}`);
+      const viewModeElements = row.querySelectorAll('.view-mode');
+      const editModeElements = row.querySelectorAll('.edit-mode');
+
+      // Show view mode elements
+      viewModeElements.forEach(el => el.style.display = 'inline');
+
+      // Hide edit mode elements
+      editModeElements.forEach(el => el.style.display = 'none');
+      
+      // Remove row highlight
+      row.classList.remove('edit-row');
+    }
+  </script>
+  <script>
+    // Function to fetch and display live search results
+    async function liveSearch() {
+      const name = document.getElementById('name').value;
+      const cardNumber = document.getElementById('cardNumber').value;
+
+      try {
+        const response = await fetch(`/admin/search-users-live?name=${name}&cardNumber=${cardNumber}`);
+        const users = await response.json();
+
+        // Clear current table rows
+        const tableBody = document.querySelector('tbody');
+        tableBody.innerHTML = '';
+
+        // Populate table with new results
+        users.forEach(user => {
+          const row = `
+            <tr id="user-row-${user._id}">
+              <td>${user.name}</td>
+              <td>${user.email}</td>
+              <td>${user.cardNumber}</td>
+              <td>$${user.balance}</td>
+              <td>${user.isAdmin ? 'Yes' : 'No'}</td>
+              <td>
+                <button class="btn view-mode" type="button" onclick="enableEdit('${user._id}')">Edit</button>
+                <a href="/admin/delete-user/${user._id}?_method=DELETE" class="delete-btn">Delete</a>
+              </td>
+            </tr>
+          `;
+          tableBody.innerHTML += row;
+        });
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+      }
+    }
+  </script>
+  <!-- Search Logic -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("userSearch");
+    const tableBody = document.getElementById("userTableBody");
+    const rows = tableBody.getElementsByTagName("tr");
+
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase();
+
+      Array.from(rows).forEach(row => {
+        const userName = row.cells[0].textContent.toLowerCase(); // Name column
+        const cardNumber = row.cells[2].textContent.toLowerCase(); // Card Number column
+
+        if (userName.includes(query) || cardNumber.includes(query)) {
+          row.style.display = ""; // Show row if match is found
+        } else {
+          row.style.display = "none"; // Hide row if no match
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

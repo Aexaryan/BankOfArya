@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction Search</title>
+  <link rel="stylesheet" href="../public/styles.css">
+</head>
+<body>
+  <nav>
+    <a href="/user/dashboard" class="btn">Back to Dashboard</a>
+  </nav>
+  <h1>Transaction Search Results</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Transaction ID</th>
+        <th>Sender</th>
+        <th>Recipient</th>
+        <th>Amount</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each transactions}}
+      <tr>
+        <td>{{this.transactionId}}</td>
+        <td>{{this.sender}}</td>
+        <td>{{this.recipient}}</td>
+        <td>${{this.amount}}</td>
+        <td>{{this.date}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</body>
+</html>
