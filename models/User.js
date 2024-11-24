@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-// User Model (models/User.js)
+
 const userSchema = new mongoose.Schema({
   googleId: { type: String },
   name: { type: String },
