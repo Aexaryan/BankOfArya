@@ -89,8 +89,8 @@ app.use('/admin', ensureAuthenticated, ensureAdmin, adminRoutes); // Admin route
 
 // Admin user management routes
 app.use('/admin/add-user', ensureAuthenticated, ensureAdmin, addUserRoutes);
-app.use('/admin/update-user', ensureAuthenticated, ensureAdmin, updateUserRoutes);
-app.use('/admin/delete-user', ensureAuthenticated, ensureAdmin, deleteUserRoutes);
+app.use('/admin/update-user', updateUserRoutes);
+app.use('/admin/delete-user', deleteUserRoutes);
 app.use('/login-page', loginPage)
 // Transactions
 app.use('/transaction', ensureAuthenticated, transactionRoutes);

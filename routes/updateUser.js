@@ -9,14 +9,14 @@ router.put('/:id', async (req, res) => {
   let { balance, isAdmin } = req.body;
 
   try {
-    // Validate balance
-    if (!balance || isNaN(parseFloat(balance)) || parseFloat(balance) < 0) {
+    // Validate balance - allow '0' as a valid value
+    if (balance === undefined || isNaN(parseFloat(balance)) || parseFloat(balance) < 0) {
       return res.status(400).json({ error: 'Balance must be a valid non-negative number.' });
     }
     balance = parseFloat(balance);
 
-    // Handle checkbox for admin
-    isAdmin = isAdmin === 'on'; // Converts 'on' (checkbox value) to true
+    // Convert isAdmin to boolean
+    isAdmin = isAdmin === 'on';
 
     // Update user
     const updatedUser = await User.findByIdAndUpdate(
@@ -29,6 +29,7 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({ error: 'User not found.' });
     }
 
+    // Respond with updated user details
     res.redirect('/admin/dashboard');
   } catch (error) {
     if (error.name === 'ValidationError') {

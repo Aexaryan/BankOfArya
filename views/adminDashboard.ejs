@@ -40,54 +40,63 @@
       <!-- Name -->
       <td>
         <span class="view-mode"><%= user.name %></span>
-        <input type="text" class="edit-mode" name="name" value="<%= user.name %>" style="display: none;">
+        <!-- <input type="text" class="edit-mode" name="name" value="<%= user.name %>" style="display: none;"> -->
       </td>
 
       <!-- Email -->
       <td>
         <span class="view-mode"><%= user.email %></span>
-        <input type="email" class="edit-mode" name="email" value="<%= user.email %>" style="display: none;">
+        <!-- <input type="email" class="edit-mode" name="email" value="<%= user.email %>" style="display: none;"> -->
       </td>
 
       <!-- Card Number -->
-      <td><%= user.cardNumber %></td>
+      <td>
+        <span class="view-mode"><%= user.cardNumber %></span>
+      </td>
 
       <!-- Balance -->
       <td>
         <span class="view-mode">$<%= user.balance %></span>
-        <input type="number" class="edit-mode" name="balance" value="<%= user.balance %>" style="display: none;">
+        <!-- <input type="number" class="edit-mode" name="balance" value="<%= user.balance %>" style="display: none;"> -->
       </td>
 
       <!-- Admin -->
       <td>
         <span class="view-mode"><%= user.isAdmin ? 'Yes' : 'No' %></span>
-        <input type="checkbox" class="edit-mode" name="isAdmin" <%= user.isAdmin ? 'checked' : '' %> style="display: none;">
+        <!-- <input type="checkbox" class="edit-mode" name="isAdmin" <%= user.isAdmin ? 'checked' : '' %> style="display: none;"> -->
       </td>
 
       <!-- Actions -->
       <td class="actions">
         <!-- View Mode -->
         <button class="btn view-mode" type="button" onclick="enableEdit('<%= user._id %>')">Edit</button>
-        <a href="/admin/delete-user/<%= user._id %>?_method=DELETE" class="delete-btn">Delete</a>
+        <form action="/admin/delete-user/<%= user._id %>?_method=DELETE" method="POST" class="view-mode" style="display: inline;">
+          <button type="submit" class="delete-btn view-mode" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+        </form>
 
         <!-- Edit Mode -->
-        <form action="/admin/update-user/<%= user._id %>?_method=PUT" method="POST" class="edit-mode" style="display: none;">
-          <label for="name-<%= user._id %>">Name:</label>
-          <input type="text" id="name-<%= user._id %>" name="name" value="<%= user.name %>" required>
+<form action="/admin/update-user/<%= user._id %>?_method=PUT" method="POST" class="edit-mode" style="display: none; margin: 0; padding: 0;">
+  <div class="edit-fields">
+    <label for="name-<%= user._id %>">Name:</label>
+    <input type="text" id="name-<%= user._id %>" name="name" value="<%= user.name %>" required>
+  
+    <label for="email-<%= user._id %>">Email:</label>
+    <input type="email" id="email-<%= user._id %>" name="email" value="<%= user.email %>" required>
+  
+    <label for="balance-<%= user._id %>">Balance:</label>
+    <input type="number" id="balance-<%= user._id %>" name="balance" value="<%= user.balance %>" required>
+  
+    <label for="isAdmin-<%= user._id %>">Admin:</label>
+    <input type="hidden" name="isAdmin" value="off">
+    <input type="checkbox" id="isAdmin-<%= user._id %>" name="isAdmin" <%= user.isAdmin ? 'checked' : '' %>>
+  </div>
+  <div class="edit-buttons">
+    <button type="submit" class="btn save-btn">Save</button>
+    <button type="button" class="btn cancel-btn" onclick="cancelEdit('<%= user._id %>')">Cancel</button>
+  </div>
+</form>
+
         
-          <label for="email-<%= user._id %>">Email:</label>
-          <input type="email" id="email-<%= user._id %>" name="email" value="<%= user.email %>" required>
-        
-          <label for="balance-<%= user._id %>">Balance:</label>
-          <input type="number" id="balance-<%= user._id %>" name="balance" value="<%= user.balance %>" required>
-        
-          <label for="isAdmin-<%= user._id %>">Admin:</label>
-          <input type="hidden" name="isAdmin" value="off"> <!-- Ensure "off" is sent when unchecked -->
-          <input type="checkbox" id="isAdmin-<%= user._id %>" name="isAdmin" <%= user.isAdmin ? 'checked' : '' %>>
-        
-          <button type="submit" class="btn">Save</button>
-        </form>
-        <button class="btn edit-mode" type="button" style="display: none;" onclick="cancelEdit('<%= user._id %>')">Cancel</button>
       </td>
     </tr>
     <% }) %>
